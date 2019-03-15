@@ -37,12 +37,34 @@ All contributions are welcome.
 ```
 
 ---
-optionally, you can build and run with npm and node
+## Manual step-by-step setup for debugging purpose
+Install node and downgrade to correct version:
 ```
-# npm install -Wno-cast-function-type 2> debug.log
-# node ./node_modules/truffle/build/cli.bundled.js build
-Run ganache (or ganache-cli)
-# node ./node_modules/truffle/build/cli.bundled.js test
+apt-get install node npm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash 
+nvm install 8
+nvm use 8
+```
+
+Download third-party binary dependencies:
+```
+curl -o /usr/bin/solc -fL https://github.com/ethereum/solidity/releases/download/v0.4.25/solc-static-linux
+chmod u+x /usr/bin/solc
+
+Download: https://github.com/trufflesuite/ganache/releases/download/v1.2.2/ganache-1.2.2-x86_64.AppImage
+chmod +x ganache-1.2.2-x86_64.AppImage
+```
+
+Build, config and run:
+```
+npm install -Wno-cast-function-type 2> debug.log
+node ./node_modules/truffle/build/cli.bundled.js build
+```
+
+Edit `truffle.js` and change port to 7545 if you are using `ganache-1.2.2-x86_64.AppImage` instead `ganache-cli`.
+
+```
+node ./node_modules/truffle/build/cli.bundled.js test
 ```
 
 
@@ -63,11 +85,9 @@ function addVote(
         bytes[] _stateGovernor,
         ^-----^
 [...]
-```
-and
-```
+
 function getVotes(uint _index) view public returns(bytes[], bytes[], bytes[])
                                                    ^-----------------------^
 ```
 
-Apache License
+Apache [License!](https://www.apache.org/licenses/LICENSE-2.0)
